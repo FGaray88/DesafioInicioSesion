@@ -3,7 +3,7 @@ const apiRoutes = require("./routers/app.routers");
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const envConfig = require("./config")
-const passport = require('./middlewares/passport.js');
+
 
 
 
@@ -37,8 +37,8 @@ app.use(session({
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
-
-app.use("/api", apiRoutes);
+// Routes
+app.use("/", apiRoutes);
 
 
 app.listen(PORT, () => {

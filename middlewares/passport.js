@@ -20,6 +20,7 @@ const isValidPassword = (user, password) => bcrypt.compareSync(password, user.pa
 passport.use('signup', new LocalStrategy({
   passReqToCallback: true
 }, async (req, password, done) => {
+  console.log(password)
   try {
     const userItem = {
       email: req.body.email,

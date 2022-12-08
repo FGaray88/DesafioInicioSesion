@@ -1,6 +1,8 @@
 const express = require("express")
 const productsRoutes = require("./products/products.router")
 const router = express.Router();
+const passport = require('../middlewares/passport.js');
+const path = require('path');
 
 
 
@@ -9,27 +11,27 @@ router.use("/products", productsRoutes)
 
 
 // Routes
-app.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
     const user = await req.session.user;
     if (user) {
         return res.redirect("/profile")
     }
     else {
-        return res.sendFile(__dirname + '/public/login.html');
+        return res.sendFile(path.resolve(__dirname, '../public/login.html'));
     }
 });
 
-app.get('/profile', async (req, res) => {
+router.get('/profile', async (req, res) => {
     const user = await req.session.user;
     if (!user) { res.redirect('/'); }
     res.render('home.ejs', { sessionUser: user });
 });
 
-app.get('/register', async (req, res) => {
-    res.sendFile(__dirname + '/public/register.html');
+router.get('/register', async (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../public/register.html'));
 });
 
-/* app.post('/register', (req, res) => {
+/* router.post('/register', (req, res) => {
     const { email, password } = req.body;
     
     if (!email || !password) return res.redirect('/error');
@@ -44,15 +46,15 @@ app.get('/register', async (req, res) => {
     });
 }); */
 
-app.post(
+router.post(
     '/register',
     passport.authenticate('signup', {
     failureRedirect: '/signup-error',
     successRedirect: '/profile'
-    })
+    }),
 );
 
-app.post(
+router.post(
     '/login',
     passport.authenticate('signin', {
     failureRedirect: '/signin-error',
@@ -60,7 +62,7 @@ app.post(
     })
 );
 
-app.get('/logout', async (req, res) => {
+router.get('/logout', async (req, res) => {
     const user = req.session?.user
     if (user) {
         req.session.destroy(err => {
