@@ -32,7 +32,6 @@ class MongoContainer {
   }
 
   async save(item) {
-    console.log("item en MongoContainer => ", item);
     const newDocument = new this.model(item);
     return await newDocument.save();
   }

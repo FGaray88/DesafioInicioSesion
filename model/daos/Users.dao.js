@@ -13,7 +13,6 @@ class UsersDao extends MongoDBContainer {
 
   async createUser(userItem) {
     try {
-      console.log("user en createUser => ", userItem);
       const user = await this.save(userItem);
       return user;
     }
@@ -21,7 +20,6 @@ class UsersDao extends MongoDBContainer {
       if (error.message.toLowerCase().includes('e11000') || error.message.toLowerCase().includes('duplicate')) {
         throw new HttpError(constants.HTTP_STATUS.BAD_REQUEST, 'User with given email already exist');
       }
-      console.log("aqui esta el error arrojado")
       throw new HttpError(constants.HTTP_STATUS.INTERNAL_ERROR, error.message, error);
       
     }

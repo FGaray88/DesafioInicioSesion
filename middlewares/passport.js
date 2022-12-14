@@ -7,6 +7,7 @@ const UsersDao = require('../model/daos/Users.dao');
 const { formatUserForDB } = require('../utils/users.utils');
 
 const User = new UsersDao();
+UsersDao.connect()
 
 const salt = () => bcrypt.genSaltSync(10);
 const createHash = (password) => bcrypt.hashSync(password, salt());
@@ -23,8 +24,6 @@ passport.use('signup', new LocalStrategy(
       password: createHash(password)
     };
     const newUser = formatUserForDB(userItem);
-    console.log("user en passport => ", newUser);
-    console.log("userItem en passport => ", userItem);
     const user = await User.createUser(newUser);
     console.log("User registration successfull");
     return done(null, user);
@@ -39,7 +38,7 @@ passport.use('signup', new LocalStrategy(
 // sign in
 passport.use('signin', new LocalStrategy( async (username, password, done) => {
   try {
-    const user = await User.getByEmail(email);
+    const user = await User.getByEmail(username);
     if (!isValidPassword(user, password)) {
       console.log("Invalid user or password");
       return done(null, false);

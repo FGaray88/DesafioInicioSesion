@@ -26,10 +26,10 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/profile', async (req, res) => {
+router.get('/profile', auth, async (req, res) => {
     const user = req.user;
     if (!user) { res.redirect('/'); }
-    res.render('home.ejs', { sessionUser: user });
+    res.render('home.ejs', { sessionUser: user.username });
 });
 
 router.get('/register', async (req, res) => {
@@ -37,9 +37,25 @@ router.get('/register', async (req, res) => {
 });
 
 router.get('/logout', async (req, res) => {
-    req.logOut();
     console.log("User logued out");
-    res.redirect("/");
+
+    const user = await req.user;
+    try {
+        req.session.destroy(err => {
+            if (err) {
+                console.log(err);
+                res.clearCookie('my-session');
+            }
+            else {
+                res.clearCookie('my-session');
+            }
+            res.redirect('/')
+        })
+    }
+    catch (err) {
+        console.log(err);
+    }
+    
 });
 
 router.get('/signin-error', async (req, res) => {

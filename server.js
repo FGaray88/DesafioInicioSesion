@@ -7,13 +7,8 @@ const passport = require('./middlewares/passport.js');
 const dbConfig = require('./db/config')
 
 
-
-
-
 const PORT = process.env.PORT || 8080;
 const app = express();
-
-
 
 
 // Middlewares
