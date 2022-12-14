@@ -10,7 +10,7 @@ class MongoContainer {
   }
 
   static async connect() {
-    await mongoose.connect(dbConfig.mongodb.connectTo("Sesiones"));
+    await mongoose.connect(dbConfig.mongodb.connectTo("DesafioSessions"));
   }
 
   static async disconnect() {
@@ -32,6 +32,7 @@ class MongoContainer {
   }
 
   async save(item) {
+    console.log("item en MongoContainer => ", item);
     const newDocument = new this.model(item);
     return await newDocument.save();
   }

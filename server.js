@@ -3,6 +3,7 @@ const apiRoutes = require("./routers/app.routers");
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const envConfig = require("./config")
+const passport = require('./middlewares/passport.js');
 
 
 
@@ -32,6 +33,9 @@ app.use(session({
         maxAge: 60000
     }
 }));
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 app.set('views', './views');

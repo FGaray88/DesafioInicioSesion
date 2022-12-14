@@ -17,16 +17,15 @@ const isValidPassword = (user, password) => bcrypt.compareSync(password, user.pa
 // Passport Local Strategy
 
 // sign up
-passport.use('signup', new LocalStrategy({
-  passReqToCallback: true
-}, async (req, password, done) => {
-  console.log(password)
+passport.use('signup', new LocalStrategy(
+  async (username, password, done) => {
   try {
     const userItem = {
-      email: req.body.email,
+      username: username,
       password: createHash(password)
     };
     const newUser = formatUserForDB(userItem);
+    console.log("user en passport => ", newUser);
     const user = await User.createUser(newUser);
     console.log("User registration successfull");
     return done(null, user);
@@ -39,7 +38,7 @@ passport.use('signup', new LocalStrategy({
 }));
 
 // sign in
-passport.use('signin', new LocalStrategy( async (email, password, done) => {
+passport.use('signin', new LocalStrategy( async (username, password, done) => {
   try {
     const user = await User.getByEmail(email);
     if (!isValidPassword(user, password)) {

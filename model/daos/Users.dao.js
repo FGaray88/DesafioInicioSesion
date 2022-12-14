@@ -4,7 +4,7 @@ const UserSchema = require('../schemas/User.schema');
 const constants = require('../../constants/api.constants');
 
 
-const collection = 'Users';
+const collection = 'users';
 
 class UsersDao extends MongoDBContainer {
   constructor() {
@@ -13,6 +13,7 @@ class UsersDao extends MongoDBContainer {
 
   async createUser(userItem) {
     try {
+      console.log("user en createUser => ", userItem);
       const user = await this.save(userItem);
       return user;
     }
