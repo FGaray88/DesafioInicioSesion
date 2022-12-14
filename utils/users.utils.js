@@ -1,6 +1,6 @@
 const formatUserForDB = (userObj) => {
   const newUser = {
-    email: userObj.username,
+    username: userObj.username,
     password: userObj.password,
     createdAt: new Date(),
     updatedAt: new Date(),

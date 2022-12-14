@@ -26,6 +26,7 @@ passport.use('signup', new LocalStrategy(
     };
     const newUser = formatUserForDB(userItem);
     console.log("user en passport => ", newUser);
+    console.log("userItem en passport => ", userItem);
     const user = await User.createUser(newUser);
     console.log("User registration successfull");
     return done(null, user);
