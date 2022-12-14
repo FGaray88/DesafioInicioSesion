@@ -4,6 +4,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const envConfig = require("./config")
 const passport = require('./middlewares/passport.js');
+const dbConfig = require('./db/config')
 
 
 
@@ -27,7 +28,7 @@ app.use(session({
     saveUninitialized: false,
     rolling: true,
     store: MongoStore.create({
-        mongoUrl: `mongodb+srv://FG-Projects:${envConfig.DB_PASSWORD}@fg-cluster.byfsgny.mongodb.net/DesafioSessions?retryWrites=true&w=majority`
+        mongoUrl: dbConfig.mongodb.connectTo("DesafioInicioSesion")
     }),
     cookie: {
         maxAge: 60000

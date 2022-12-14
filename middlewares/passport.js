@@ -3,8 +3,6 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 
-
-
 const UsersDao = require('../model/daos/Users.dao');
 const { formatUserForDB } = require('../utils/users.utils');
 
